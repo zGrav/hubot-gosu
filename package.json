@@ -1,0 +1,24 @@
+{
+  "name": "hubot-gosu",
+  "version": "0.0.1",
+  "description": "A HUBOT adapter for GOSU",
+  "main": "src/gosu.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "HUBOT",
+    "GOSU"
+  ],
+  "author": "David Silva <zgrav@go.su>",
+  "dependencies": {
+    "gosu-client": "file:///Users/zgrav/Desktop/gosu/gosu-client",
+    "parent-require": "^1.0.0"
+  },
+  "peerDependencies": {
+    "hubot": "^2.18.0"
+  },
+  "devDependencies": {
+    "coffee-script": ">=1.2.0"
+  }
+}
