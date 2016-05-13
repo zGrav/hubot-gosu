@@ -369,9 +369,19 @@ class Listener extends EventEmitter
                                   getIdx = funcs.findKeyIndex(global.channels_by_index, 'id', id)
                                   global.channels_by_index[getIdx].ts = result['messages'][k]['timestamp']
 
-                                  hardcodedcmds = ['hi', 'hello']
+                                  hardcodedcmds = ['hi', 'hello', 'join community']
 
-                                  if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and bodyidx == -1
+                                  if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and global.channels_by_index[getIdx].type == 3 or global.channels_by_index[getIdx].type == 3
+                                      message_id = result['messages'][k]['id']
+                                      account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
+                                      body = result['messages'][k]['user_message']['body']
+                                      body = body.toLowerCase()
+                                      body = "#{@robot.name} " + body
+                                      send_time = global.channels_by_index[getIdx].ts
+                                      update_time = global.channels_by_index[getIdx].ts
+                                      emit_message(id, message_id, account, body, send_time, update_time)
+
+                                  if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and bodyidx == -1 and global.channels_by_index[getIdx].type != 3
                                       message_id = result['messages'][k]['id']
                                       account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
                                       body = result['messages'][k]['user_message']['body']
