@@ -176,9 +176,9 @@ class GOSU extends Hubot.Adapter
 
           if result.user.channels != undefined
               while i < result.user.channels.length
-                  if result.user.channels[i].type == 2 or result.user.channels[i].type == 4 or result.user.channels[i].type == 5
+                  if result.user.channels[i].type == 2 or result.user.channels[i].type == 3 or result.user.channels[i].type == 4 or result.user.channels[i].type == 5
                       if funcs.searchArray(result.user.channels[i].id, global.channels_by_index) == false
-                          global.channels_by_index.push(title: result.user.channels[i].title, id: result.user.channels[i].id, hub_id: result.user.channels[i].hub_id, ts: null)
+                          global.channels_by_index.push(title: result.user.channels[i].title, id: result.user.channels[i].id, hub_id: result.user.channels[i].hub_id, type: result.user.channels[i].type, ts: null)
                     i++
 
           global.loggedin = true
@@ -263,9 +263,9 @@ class Functions extends EventEmitter
 
                             l = 0
                             while l < result.user.channels.length
-                                if result.user.channels[l].type == 2 or result.user.channels[l].type == 4 or result.user.channels[l].type == 5
+                                if result.user.channels[l].type == 2 or result.user.channels[l].type == 3 or result.user.channels[l].type == 4 or result.user.channels[l].type == 5
                                     if @searchArray(result.user.channels[l].id, global.channels_by_index) == false
-                                        global.channels_by_index.push(title: result.user.channels[l].title, id: result.user.channels[l].id, hub_id: result.user.channels[l].hub_id)
+                                        global.channels_by_index.push(title: result.user.channels[l].title, id: result.user.channels[l].id, hub_id: result.user.channels[l].hub_id, type: result.user.channels[l].type, ts: null)
                                 l++
                           catch error
                             global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
