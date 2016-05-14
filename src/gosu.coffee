@@ -55,7 +55,7 @@ class GOSU extends Hubot.Adapter
         .post(string_query) (err, res, body) ->
             try
               if res.statusCode isnt 200
-                  global.robot.logger.warning "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
+                  global.robot.logger.error "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
                   return
               global.robot.logger.info "Successfully sent message to channel with ID: #{ch} and content: #{string} with UUID: #{uuid}"
             catch error
@@ -97,7 +97,7 @@ class GOSU extends Hubot.Adapter
               .post(string_query) (err, res, body) ->
                   try
                     if res.statusCode isnt 200
-                        global.robot.logger.warning "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
+                        global.robot.logger.error "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
                         return
                     global.robot.logger.info "Successfully sent message to direct channel with ID: #{ch} and content: #{string} with UUID: #{uuid}"
                   catch error
@@ -227,7 +227,7 @@ class Functions extends EventEmitter
 
             if existingidx == -1
                 query = {
-                    "hub_id": arr[j]
+                    "hub_id": arr[j],
                     "user_id": global.user_id
                 }
 
@@ -239,7 +239,7 @@ class Functions extends EventEmitter
                 .post(string_query) (err, res, body) ->
                     try
                       if res.statusCode isnt 200
-                          global.robot.logger.warning "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
+                          global.robot.logger.error "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
                           return
 
                       global.robot.logger.info "Successfully joined community!"
