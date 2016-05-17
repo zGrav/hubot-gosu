@@ -371,17 +371,15 @@ class Listener extends EventEmitter
 
                                   hardcodedcmds = ['hi', 'hello', 'join community']
 
-                                  if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and global.channels_by_index[getIdx].type == 3 or global.channels_by_index[getIdx].type == 3
-                                      message_id = result['messages'][k]['id']
-                                      account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
-                                      body = result['messages'][k]['user_message']['body']
-                                      body = body.toLowerCase()
-                                      body = "#{@robot.name} " + body
-                                      send_time = global.channels_by_index[getIdx].ts
-                                      update_time = global.channels_by_index[getIdx].ts
-                                      emit_message(id, message_id, account, body, send_time, update_time)
+                                  m = 0
+                                  while m < hardcodedcmds.length
+                                      arrstr = hardcodedcmds[m]
+                                      searchstr = obj.body.search(arrstr)
+                                      if searchstr != -1
+                                          searchresult = i
+                                      m++
 
-                                  if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and bodyidx == -1 and global.channels_by_index[getIdx].type != 3
+                                  if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and global.channels_by_index[getIdx].type == 3 or searchresult != null and global.channels_by_index[getIdx].type == 3 or global.channels_by_index[getIdx].type == 3
                                       message_id = result['messages'][k]['id']
                                       account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
                                       body = result['messages'][k]['user_message']['body']
@@ -390,7 +388,16 @@ class Listener extends EventEmitter
                                       send_time = global.channels_by_index[getIdx].ts
                                       update_time = global.channels_by_index[getIdx].ts
                                       emit_message(id, message_id, account, body, send_time, update_time)
-                                  else if bodyidx == 0
+                                  else if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and bodyidx == -1 and global.channels_by_index[getIdx].type != 3
+                                      message_id = result['messages'][k]['id']
+                                      account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
+                                      body = result['messages'][k]['user_message']['body']
+                                      body = body.toLowerCase()
+                                      body = "#{@robot.name} " + body
+                                      send_time = global.channels_by_index[getIdx].ts
+                                      update_time = global.channels_by_index[getIdx].ts
+                                      emit_message(id, message_id, account, body, send_time, update_time)
+                                  else if bodyidx == 0 and global.channels_by_index[getIdx].type != 3
                                       message_id = result['messages'][k]['id']
                                       account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
                                       body = result['messages'][k]['user_message']['body']
@@ -400,7 +407,7 @@ class Listener extends EventEmitter
                                       send_time = global.channels_by_index[getIdx].ts
                                       update_time = global.channels_by_index[getIdx].ts
                                       emit_message(id, message_id, account, rep, send_time, update_time)
-                                  else if bodyidx > 0
+                                  else if bodyidx > 0 and global.channels_by_index[getIdx].type != 3
                                       message_id = result['messages'][k]['id']
                                       account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
                                       body = result['messages'][k]['user_message']['body']
