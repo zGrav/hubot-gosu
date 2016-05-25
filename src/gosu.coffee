@@ -224,6 +224,9 @@ class Functions extends EventEmitter
               result = JSON.parse(body)
 
               global.robot.logger.info "Successfully left direct channel with ID: #{channelID}"
+
+              removeByAttr(global.channels_by_index, 'id', channelID)
+
             catch error
               global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
 
@@ -309,6 +312,15 @@ class Functions extends EventEmitter
         while i < arr.length
             if arr[i][key] == val
                 return i
+            i++
+        null
+
+    removeByAttr = (arr, attr, value) ->
+        i = 0
+
+        while i < arr.length
+            if arr[i] and arr[i].hasOwnProperty(attr) and arguments.length > 2 and arr[i][attr] == value
+                arr.splice i, 1
             i++
         null
 
