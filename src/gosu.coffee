@@ -100,6 +100,10 @@ class GOSU extends Hubot.Adapter
                         global.robot.logger.error "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
                         return
                     global.robot.logger.info "Successfully sent message to direct channel with ID: #{ch} and content: #{string} with UUID: #{uuid}"
+
+                    funcs = new Functions
+
+                    funcs.leaveChannel(ch)
                   catch error
                       global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
 
@@ -207,6 +211,21 @@ class GOSU extends Hubot.Adapter
             listener.listen()
 
 class Functions extends EventEmitter
+
+    leaveChannel: (channelID) ->
+        global.robot.http(global.api + "/me/channel/#{channelID}")
+        .headers('Accept': 'application/json', 'Content-Type': 'application/json', 'X-Token': global.user_token)
+        .delete() (err, res, body) ->
+            try
+              if res.statusCode isnt 200
+                  global.robot.logger.error "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
+                  return
+
+              result = JSON.parse(body)
+
+              global.robot.logger.info "Successfully left direct channel with ID: #{channelID}"
+            catch error
+              global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
 
     joinCommunities: ->
         existing = []
@@ -369,7 +388,7 @@ class Listener extends EventEmitter
                                   getIdx = funcs.findKeyIndex(global.channels_by_index, 'id', id)
                                   global.channels_by_index[getIdx].ts = result['messages'][k]['timestamp']
 
-                                  hardcodedcmds = ['hi', 'hello', 'join community']
+                                  hardcodedcmds = ['join community']
 
                                   m = 0
                                   while m < hardcodedcmds.length
@@ -379,16 +398,7 @@ class Listener extends EventEmitter
                                           searchresult = i
                                       m++
 
-                                  if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and global.channels_by_index[getIdx].type == 3 or searchresult != null and global.channels_by_index[getIdx].type == 3 or global.channels_by_index[getIdx].type == 3
-                                      message_id = result['messages'][k]['id']
-                                      account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
-                                      body = result['messages'][k]['user_message']['body']
-                                      body = body.toLowerCase()
-                                      body = "#{@robot.name} " + body
-                                      send_time = global.channels_by_index[getIdx].ts
-                                      update_time = global.channels_by_index[getIdx].ts
-                                      emit_message(id, message_id, account, body, send_time, update_time)
-                                  else if hardcodedcmds.indexOf(result['messages'][k]['user_message']['body']) != -1 and bodyidx == -1 and global.channels_by_index[getIdx].type != 3
+                                  if searchresult != null and global.channels_by_index[getIdx].type == 3 or global.channels_by_index[getIdx].type == 3
                                       message_id = result['messages'][k]['id']
                                       account = {name: result['messages'][k]['user_message']['user']['display_name'], account_id: result['messages'][k]['user_message']['user']['id']}
                                       body = result['messages'][k]['user_message']['body']
