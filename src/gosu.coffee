@@ -286,11 +286,13 @@ class Functions extends EventEmitter
                             funcs = new Functions
 
                             l = 0
-                            while l < result.user.channels.length
-                                if result.user.channels[l].type == 2 or result.user.channels[l].type == 3 or result.user.channels[l].type == 4 or result.user.channels[l].type == 5
-                                    if funcs.searchArray(result.user.channels[l].id, global.channels_by_index) == false
-                                        global.channels_by_index.push(title: result.user.channels[l].title, id: result.user.channels[l].id, hub_id: result.user.channels[l].hub_id, type: result.user.channels[l].type, ts: null)
-                                l++
+
+                            if result.user.channels != undefined
+                                while l < result.user.channels.length
+                                    if result.user.channels[l].type == 2 or result.user.channels[l].type == 3 or result.user.channels[l].type == 4 or result.user.channels[l].type == 5
+                                        if funcs.searchArray(result.user.channels[l].id, global.channels_by_index) == false
+                                            global.channels_by_index.push(title: result.user.channels[l].title, id: result.user.channels[l].id, hub_id: result.user.channels[l].hub_id, type: result.user.channels[l].type, ts: null)
+                                    l++
                           catch error
                             global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
                     catch error
