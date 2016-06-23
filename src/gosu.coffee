@@ -174,6 +174,11 @@ class GOSU extends Hubot.Adapter
 
           global.display_name = result.user.display_name
 
+          global.is_sysop = result.user.is_sysop
+
+          if global.is_sysop == undefined
+              global.is_sysop = false
+
           funcs = new Functions
 
           i = 0
