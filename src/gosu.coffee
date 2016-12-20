@@ -141,6 +141,7 @@ class GOSU extends Hubot.Adapter
         user = @robot.brain.userForId account.account_id,
         name: account.name
         room: roomId
+        is_moderator: account.is_moderator
         msg = new Hubot.TextMessage user, body, id
         @robot.receive(msg)
 
