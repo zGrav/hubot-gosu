@@ -188,6 +188,9 @@ class GOSU extends Hubot.Adapter
               while i < result.user.channels.length
                   if result.user.channels[i].type == 2 or result.user.channels[i].type == 3 or result.user.channels[i].type == 4 or result.user.channels[i].type == 5
                       if funcs.searchArray(result.user.channels[i].id, global.channels_by_index) == false
+                          if result.user.channels[i].title == '' and result.user.channels[i].hub != undefined
+                              result.user.channels[i].title = result.user.channels[i].hub.short_title
+
                           global.channels_by_index.push(title: result.user.channels[i].title, id: result.user.channels[i].id, hub_id: result.user.channels[i].hub_id, type: result.user.channels[i].type, ts: null)
                     i++
 
