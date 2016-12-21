@@ -31,11 +31,17 @@ class GOSU extends Hubot.Adapter
         string = string.replace(regexp, "")
 
         try
-            if env.user.name == global.username
-                  messageobject = {body: string}
+            if env.user.name == global.username # no selftag
+                  if string.indexOf('Answer by mentioning me') > -1 # used for trivia
+                        messageobject = {body: string, type: 1}
+                  else
+                        messageobject = {body: string}
             else
-                  string = "@#{env.user.name}\n" + string
-                  messageobject = {body: string, body_annotations: [{type: 2, pos_start: 0, pos_end: env.user.name.length + 1, replacement: env.user.name, target: env.user.id}]}
+                  if string.indexOf('Answer by mentioning me') > -1 # used for trivia, strip user mention
+                        messageobject = {body: string, type: 1}
+                  else
+                        string = "@#{env.user.name}\n" + string
+                        messageobject = {body: string, body_annotations: [{type: 2, pos_start: 0, pos_end: env.user.name.length + 1, replacement: env.user.name, target: env.user.id}]}
         catch error
             messageobject = {body: string}
 
