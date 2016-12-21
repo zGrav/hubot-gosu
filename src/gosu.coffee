@@ -50,6 +50,10 @@ class GOSU extends Hubot.Adapter
         string_query = JSON.stringify(query)
         content_length = string_query.length
 
+        funcs = new Functions
+        getIdx = funcs.findKeyIndex(global.channels_by_index, 'id', ch)
+        title = global.channels_by_index[getIdx].title
+
         global.robot.http(global.api + "/chat/message")
         .headers('Accept': 'application/json', 'Content-Type': 'application/json', 'Content-Length': content_length, 'X-Token': global.user_token)
         .post(string_query) (err, res, body) ->
@@ -57,7 +61,7 @@ class GOSU extends Hubot.Adapter
               if res.statusCode isnt 200
                   global.robot.logger.error "Oh no! We errored under API :( - Response Code: #{res.statusCode}"
                   return
-              global.robot.logger.info "Successfully sent message to channel with ID: #{ch} and content: #{string} with UUID: #{uuid}"
+              global.robot.logger.info "Successfully sent message to channel with ID: #{ch}/title: #{title} and content: #{string} with UUID: #{uuid}"
             catch error
                 global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
 
@@ -378,7 +382,8 @@ class Listener extends EventEmitter
                     funcs = new Functions
                     getIdx = funcs.findKeyIndex(global.channels_by_index, 'id', id)
                     global.channels_by_index[getIdx].ts = result['messages'][0]['timestamp']
-                    global.robot.logger.info "Timestamp fetched for channel with ID: #{id}"
+                    title = global.channels_by_index[getIdx].title
+                    global.robot.logger.info "Timestamp fetched for channel with ID: #{id}/title #{title}"
                   catch error
                       global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
 
