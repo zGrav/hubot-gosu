@@ -23,7 +23,7 @@ class GOSU extends Hubot.Adapter
     @robot.logger.info "INIT"
 
   send: (env, strings...) ->
-    console.log 'Send!'
+    global.robot.logger.info 'Send!'
 
     for string in strings
         regexstring = "#{@robot.name} "
@@ -31,8 +31,11 @@ class GOSU extends Hubot.Adapter
         string = string.replace(regexp, "")
 
         try
-            string = "@#{env.user.name}\n" + string
-            messageobject = {body: string, body_annotations: [{type: 2, pos_start: 0, pos_end: env.user.name.length + 1, replacement: env.user.name, target: env.user.id}]}
+            if env.user.name == global.username
+                  messageobject = {body: string}
+            else
+                  string = "@#{env.user.name}\n" + string
+                  messageobject = {body: string, body_annotations: [{type: 2, pos_start: 0, pos_end: env.user.name.length + 1, replacement: env.user.name, target: env.user.id}]}
         catch error
             messageobject = {body: string}
 
@@ -66,7 +69,7 @@ class GOSU extends Hubot.Adapter
                 global.robot.logger.error "Oh no! We errored :( - #{error} - API Response Code: #{res.statusCode}"
 
   reply: (env, strings...) ->
-    console.log 'Reply!'
+    global.robot.logger.info 'Reply!'
 
     query = {
         "user_ids": [env.user.id]
