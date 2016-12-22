@@ -64,7 +64,9 @@ class GOSU extends Hubot.Adapter
 
         funcs = new Functions
         getIdx = funcs.findKeyIndex(global.channels_by_index, 'id', ch)
-        title = global.channels_by_index[getIdx].title
+        title = ''
+        if global.channels_by_index[getIdx]
+          title = global.channels_by_index[getIdx].title
 
         global.robot.http(global.api + "/chat/message")
         .headers('Accept': 'application/json', 'Content-Type': 'application/json', 'Content-Length': content_length, 'X-Token': global.user_token)
