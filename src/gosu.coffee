@@ -34,7 +34,7 @@ class GOSU extends Hubot.Adapter
         try
             if env.user.name == global.username # no selftag
                   if string.indexOf('Answer by mentioning me') > -1 # used for trivia
-                        substr = string.substring(string.indexOf(":") + 2, string.length - 1)
+                        substr = string.substring(string.indexOf(":") + 3, string.length - 1)
                         messageobject = {body: string, body_annotations: [{type: 7, pos_start: string.indexOf(":") + 3, pos_end: string.length - 1, replacement: substr}], type: 1}
                   else
                         messageobject = {body: string}
