@@ -29,16 +29,19 @@ class GOSU extends Hubot.Adapter
         regexstring = "#{@robot.name} "
         regexp = new RegExp(regexstring, "gi")
         string = string.replace(regexp, "")
+        string = string.trim()
 
         try
             if env.user.name == global.username # no selftag
                   if string.indexOf('Answer by mentioning me') > -1 # used for trivia
-                        messageobject = {body: string, type: 1}
+                        substr = string.substring(string.indexOf(":") + 2, string.length - 1)
+                        messageobject = {body: string, body_annotations: [{type: 7, pos_start: string.indexOf(":") + 3, pos_end: string.length - 1, replacement: substr}], type: 1}
                   else
                         messageobject = {body: string}
             else
                   if string.indexOf('Answer by mentioning me') > -1 # used for trivia, strip user mention
-                        messageobject = {body: string, type: 1}
+                        substr = string.substring(string.indexOf(":") + 3, string.length - 1)
+                        messageobject = {body: string, body_annotations: [{type: 7, pos_start: string.indexOf(":") + 3, pos_end: string.length - 1, replacement: substr}], type: 1}
                   else
                         string = "@#{env.user.name}\n" + string
                         messageobject = {body: string, body_annotations: [{type: 2, pos_start: 0, pos_end: env.user.name.length + 1, replacement: env.user.name, target: env.user.id}]}
